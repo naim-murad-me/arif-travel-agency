@@ -9,3 +9,7 @@ Building everything
 ```sh
 $ ./mvnw -DskipTests=true install
 ```
+
+Home page would be
+-------------------
+http://localhost:8095/login

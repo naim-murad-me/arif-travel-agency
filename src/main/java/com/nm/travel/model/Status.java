@@ -1,16 +1,12 @@
 package com.nm.travel.model;
 
 import java.util.Calendar;
-import java.util.Collection;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -30,7 +26,7 @@ public class Status {
 	private String activity;
 
 	@Column(name = "location_id")
-	private String location;
+	private Long locationId;
 
 	@Column(name = "user_id")
 	private String userId;
@@ -42,8 +38,4 @@ public class Status {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "creation_date")
 	private Calendar creationDate;
-	
-	@OneToOne
-	@JoinTable(name = "user", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
-	private User user;
 }
