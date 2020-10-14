@@ -1,62 +1,46 @@
 package com.nm.travel.model;
 
-import javax.persistence.*;
-import java.util.Set;
+import java.util.Calendar;
+import java.util.Collection;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import lombok.Data;
 
 @Entity
 @Table(name = "user")
+@Data
 public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
-    private String username;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
 
-    private String password;
+	private String username;
+	private String firstName;
+	private String lastName;
+	private String email;
+	private String phone;
+	private String password;
+	private String passwordConfirm;
+	private Long pinnedStatusId;
 
-    @Transient
-    private String passwordConfirm;
+	/** Token expiry date-time */
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "expiry_date")
+	private Calendar expiryDate;
 
-    @ManyToMany
-    private Set<Role> roles;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getPasswordConfirm() {
-        return passwordConfirm;
-    }
-
-    public void setPasswordConfirm(String passwordConfirm) {
-        this.passwordConfirm = passwordConfirm;
-    }
-
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
+	@ManyToMany
+	@JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+	private Collection<Role> roles;
 }

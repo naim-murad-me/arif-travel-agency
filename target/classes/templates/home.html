@@ -12,7 +12,17 @@
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
         </form>
 
-        <h2>Welcome <span sec:authentication="name"></span> | <a onclick="document.forms['logoutForm'].submit()">Logout</a></h2>
+        <h2>Welcome to Arif's Travel! <span sec:authentication="name"></span></h2>
+        <br></br>
+        <section th:each="stts : ${publicstatus}" >
+        	<div class="span12">
+        		<u>____________________________________</u>
+        			<div class="span6 text-center" th:text="${stts.activity}"></div>
+        		<u>____________________________________</u>
+        	</div>
+        </section>
+        <button class="btn pull-right btn-info" onclick="document.forms['logoutForm'].submit()">Logout</button>
+        <a class="btn pull-right btn-success" th:href="@{/welcome/status}">Post a status</a>
     </div>
   </div>
 

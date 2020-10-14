@@ -10,23 +10,20 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.nm.travel.model.User;
 import com.nm.travel.service.SecurityService;
+import com.nm.travel.service.StatusService;
 import com.nm.travel.service.UserService;
 
 @Controller
 public class UserController {
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private SecurityService securityService;
-
-    @Autowired
-    private UserValidator userValidator;
+	@Autowired private UserService userService;
+	@Autowired private SecurityService securityService;
+	@Autowired private UserValidator userValidator;
+	@Autowired private StatusService statusService;
 
     @GetMapping("/registration")
     public String registration(Model model) {
         if (securityService.isAuthenticated()) {
-            return "redirect:/";
+        	return "redirect:/welcome/home";
         }
 
         model.addAttribute("userForm", new User());
@@ -46,13 +43,13 @@ public class UserController {
 
         securityService.autoLogin(userForm.getUsername(), userForm.getPasswordConfirm());
 
-        return "redirect:/welcome";
+        return "redirect:/welcome/home";
     }
 
     @GetMapping("/login")
     public String login(Model model, String error, String logout) {
         if (securityService.isAuthenticated()) {
-            return "redirect:/";
+            return "redirect:/welcome/home";
         }
 
         if (error != null)
@@ -63,9 +60,10 @@ public class UserController {
 
         return "login";
     }
-
-    @GetMapping({"/", "/welcome"})
-    public String welcome(Model model) {
-        return "welcome";
-    }
+   
+    @GetMapping({"/" })
+	public String welcome(Model model) {
+		model.addAttribute("publicstatus", statusService.findAllList());
+		return "home";
+	}
 }
